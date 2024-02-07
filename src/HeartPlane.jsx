@@ -2,8 +2,9 @@ import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
 import { Select } from '@react-three/postprocessing'
 import * as THREE from 'three'
+import { Edges } from '@react-three/drei'
 
-export default function HeartPlane(props) {
+export default function HeartPlane({position, name, color}) {
   const ref = useRef()
 
   const [hovered, setHover] = useState(false)
@@ -33,18 +34,24 @@ export default function HeartPlane(props) {
   const extrudeSettings = {
     // steps: 2,
     depth: 2,
-    bevelEnabled: false,
+    bevelEnabled: false
     // bevelThickness: 1,
     // bevelSize: 1,
     // bevelOffset: 0,
     // bevelSegments: 1,
   }
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+  const edge = new THREE.EdgesGeometry(geometry)
+  const line = new THREE.LineSegments(
+    edge,
+    new THREE.LineBasicMaterial({ color: 0x000000 })
+  )
 
   return (
     <Select enabled={hovered}>
       <mesh
-        {...props}
+        position={position}
+        name={name}
         ref={ref}
         onPointerOver={() => {
           setHover(true)
@@ -54,7 +61,15 @@ export default function HeartPlane(props) {
           setRotate(!rotate)
         }}
         geometry={geometry}>
-        <meshStandardMaterial color={0x00ff00} wireframe={false} />
+        <meshStandardMaterial
+          color={color}
+          wireframe={false}
+          flatShading
+          opacity={0.5}
+          transparent
+          // side={THREE.DoubleSide}
+        />
+        <Edges color={"white"} />
       </mesh>
     </Select>
   )

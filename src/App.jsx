@@ -138,7 +138,8 @@ export default function App() {
             width={1000}
           />
         </EffectComposer>
-        <HeartPlane position={[-0.75, 0, 0]} name="A" />
+        <HeartPlane position={[-0.75, 0, 0]} name="A" color={"green"} />
+        <HeartPlane position={[0.75, 0, 0]} name="B" color={"blue"}/>
         {/* <Box position={[0.75, 0, 0]} name="B" /> */}
       </Selection>
       <OrbitControls />
