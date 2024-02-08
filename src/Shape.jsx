@@ -10,18 +10,53 @@ const Shape = ({ shape, position, name, color }) => {
   const ref = useRef()
 
   const [hovered, setHover] = useState(false)
-  const [rotate, setRotate] = useState(false)
-  console.log('Hover : ', hovered)
+  const [goingAway, setGoingAway] = useState(false)
+  const [goingHome, setGoingHome] = useState(false)
+  const [deltaZ, setDeltaZ] = useState(0)
+  const [home, setHome] = useState(true)
+
+  // console.log('Hover : ', hovered)
 
   useEffect(() => {
     console.log('Box created', ref.current.name)
   }, [])
 
   useFrame((state, delta) => {
-    if (rotate) {
-      ref.current.rotation.x += 1 * delta
-      ref.current.rotation.y += 0.5 * delta
+    // if home then move away and rotate in z axis until 90 degree
+    if (goingAway) {
+      console.log('Going away')
+      if (deltaZ < 3) {
+          ref.current.position.z += 0.1
+          setDeltaZ(deltaZ + 0.1)
+      }
+      
+      // if home then rotate in z axis 90 degree
+      if (ref.current.rotation.z < Math.PI / 2) {
+        ref.current.rotation.z += 0.05
+      }
+      if ((deltaZ === 3) && (ref.current.rotation.z > Math.PI / 2)) {
+        setGoingAway(false)
+        setHome(false)
+      }
     }
+
+    // if away then move home and rotate in z axis until 0 degree
+    if (goingHome) {
+      console.log('Going home')
+      if (deltaZ > 0) {
+        ref.current.position.z -= 0.1
+        setDeltaZ(deltaZ - 0.1)
+      }
+      // if home then rotate in z axis 90 degree
+      if (ref.current.rotation.z > 0) {
+        ref.current.rotation.z -= 0.05
+      }
+      if ((deltaZ === 0) && (ref.current.rotation.z < 0)) {
+        setGoingHome(false)
+        setHome(true)
+      }
+    }
+
   })
 
   const myShape = new THREE.Shape()
@@ -56,11 +91,15 @@ const Shape = ({ shape, position, name, color }) => {
         ref={ref}
         onPointerOver={() => {
           setHover(true)
-          console.log('Hovered', name)
         }}
         onPointerOut={() => setHover(false)}
         onPointerDown={() => {
-          setRotate(!rotate)
+          if (!home) {
+            setGoingHome(true)
+          }
+          if (home) {
+            setGoingAway(true)
+          }
         }}
         geometry={geometry}>
         <meshStandardMaterial
