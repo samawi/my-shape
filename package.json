@@ -5,6 +5,7 @@
     "keywords": [],
     "main": "src/index.jsx",
     "devDependencies": {
+        "@react-spring/three": "^9.7.3",
         "@react-three/drei": "^9.97.3",
         "@react-three/fiber": "^8.15.14",
         "@react-three/postprocessing": "^2.15.13",
@@ -12,7 +13,7 @@
         "r3f-pack": "^2.6.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "three": "^0.160.0"
+        "three": "^0.160.1"
     },
     "scripts": {
         "start": "r3f-pack start",

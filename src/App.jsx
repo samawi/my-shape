@@ -32,8 +32,8 @@ const App = () => {
             width={1000}
           />
         </EffectComposer>
-        <Shape shape={shapes[0]} position={[-0.75, 0, 0]} name="A" color={'green'} />
-        <Shape shape={shapes[1]} position={[0.75, 0, 0]} name="B" color={'blue'} />
+        <Shape shape={shapes[0]} position={[0, 0, 0]} name="A" color={'green'} />
+        <Shape shape={shapes[1]} position={[0, 1, 0]} name="B" color={'blue'} />
       </Selection>
       <OrbitControls />
       <axesHelper args={[5]} />

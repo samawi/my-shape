@@ -26,15 +26,16 @@ const Shape = ({ shape, position, name, color }) => {
     if (goingAway) {
       console.log('Going away')
       if (deltaZ < 3) {
-          ref.current.position.z += 0.1
+          ref.current.position.x += 0.1
           setDeltaZ(deltaZ + 0.1)
       }
       
       // if home then rotate in z axis 90 degree
-      if (ref.current.rotation.z < Math.PI / 2) {
-        ref.current.rotation.z += 0.05
+      if (ref.current.rotation.x < Math.PI / 2) {
+        ref.current.rotation.x += 0.05
       }
-      if ((deltaZ === 3) && (ref.current.rotation.z > Math.PI / 2)) {
+      if ((deltaZ > 3) && (ref.current.rotation.x > Math.PI / 2)) {
+        console.log('Going away done')
         setGoingAway(false)
         setHome(false)
       }
@@ -44,14 +45,15 @@ const Shape = ({ shape, position, name, color }) => {
     if (goingHome) {
       console.log('Going home')
       if (deltaZ > 0) {
-        ref.current.position.z -= 0.1
+        ref.current.position.x -= 0.1
         setDeltaZ(deltaZ - 0.1)
       }
       // if home then rotate in z axis 90 degree
-      if (ref.current.rotation.z > 0) {
-        ref.current.rotation.z -= 0.05
+      if (ref.current.rotation.x > 0) {
+        ref.current.rotation.x -= 0.05
       }
-      if ((deltaZ === 0) && (ref.current.rotation.z < 0)) {
+      if ((deltaZ < 0) && (ref.current.rotation.x < 0)) {
+        console.log('Going home done')
         setGoingHome(false)
         setHome(true)
       }
@@ -70,18 +72,13 @@ const Shape = ({ shape, position, name, color }) => {
     }
   });
 
-  const shapeOld = new THREE.Shape()
-  shapeOld.moveTo(0, 0)
-  shapeOld.lineTo(0, 1)
-  shapeOld.lineTo(1, 1)
-  shapeOld.lineTo(1, 0)
-  shapeOld.lineTo(0, 0)
+  // const shapeOld = new THREE.Shape()
 
   const extrudeSettings = {
-    depth: 2,
+    depth: 1,
     bevelEnabled: false
   }
-  const geometry = new THREE.ExtrudeGeometry(myShape, extrudeSettings)
+  const geometry = new THREE.ExtrudeGeometry(myShape, extrudeSettings).rotateX(-Math.PI / 2)
 
   return (
     <Select enabled={hovered}>
