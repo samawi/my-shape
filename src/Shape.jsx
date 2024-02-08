@@ -6,7 +6,7 @@ import * as THREE from 'three'
 import { Edges } from '@react-three/drei'
 
 
-const HeartPlane = ({ position, name, color }) => {
+const Shape = ({ shape, position, name, color }) => {
   const ref = useRef()
 
   const [hovered, setHover] = useState(false)
@@ -24,20 +24,29 @@ const HeartPlane = ({ position, name, color }) => {
     }
   })
 
-  const shape = new THREE.Shape()
-  const x = -2.5
-  const y = -5
-  shape.moveTo(0, 0)
-  shape.lineTo(0, 1)
-  shape.lineTo(1, 1)
-  shape.lineTo(1, 0)
-  shape.lineTo(0, 0)
+  const myShape = new THREE.Shape()
+  shape.forEach((point, index) => {
+    if (index === 0) {
+      myShape.moveTo(point.x, point.y)
+    } else if (index < shape.length) {
+      myShape.lineTo(point.x, point.y)
+    } else if (index === shape.length){
+      myShape.lineTo(shape[0].x, shape[0].y)
+    }
+  });
+
+  const shapeOld = new THREE.Shape()
+  shapeOld.moveTo(0, 0)
+  shapeOld.lineTo(0, 1)
+  shapeOld.lineTo(1, 1)
+  shapeOld.lineTo(1, 0)
+  shapeOld.lineTo(0, 0)
 
   const extrudeSettings = {
     depth: 2,
     bevelEnabled: false
   }
-  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings)
+  const geometry = new THREE.ExtrudeGeometry(myShape, extrudeSettings)
 
   return (
     <Select enabled={hovered}>
@@ -47,6 +56,7 @@ const HeartPlane = ({ position, name, color }) => {
         ref={ref}
         onPointerOver={() => {
           setHover(true)
+          console.log('Hovered', name)
         }}
         onPointerOut={() => setHover(false)}
         onPointerDown={() => {
@@ -66,4 +76,4 @@ const HeartPlane = ({ position, name, color }) => {
   )
 }
 
-export default HeartPlane
+export default Shape
