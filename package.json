@@ -5,6 +5,7 @@
     "keywords": [],
     "main": "src/index.jsx",
     "devDependencies": {
+        "@react-spring/core": "^9.7.3",
         "@react-spring/three": "^9.7.3",
         "@react-three/drei": "^9.97.3",
         "@react-three/fiber": "^8.15.14",

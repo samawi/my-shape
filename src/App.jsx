@@ -4,6 +4,7 @@ import { OrbitControls } from '@react-three/drei'
 import React from 'react'
 import Lights from './Lights'
 import Shape from './Shape'
+import Shape2 from './Shape2'
 
 const App = () => {
   const shapes = [
@@ -32,8 +33,18 @@ const App = () => {
             width={1000}
           />
         </EffectComposer>
-        <Shape shape={shapes[0]} position={[0, 0, 0]} name="A" color={'green'} />
-        <Shape shape={shapes[1]} position={[0, 1, 0]} name="B" color={'blue'} />
+        <Shape2
+          shape={shapes[0]}
+          position={[0, 0, 0]}
+          name="A"
+          color={'green'}
+        />
+        <Shape2
+          shape={shapes[1]}
+          position={[0, 1, 0]}
+          name="B"
+          color={'blue'}
+        />
       </Selection>
       <OrbitControls />
       <axesHelper args={[5]} />
